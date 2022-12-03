@@ -1,0 +1,13 @@
+- name: Installing the Memcached
+  apt:
+    name:
+      - memcached
+      - python3-memcache
+    state: present
+    update_cache: yes
+
+- name: Restarting the Memcached
+  service:
+     name: memcached
+     state: restarted
+     enabled: yes

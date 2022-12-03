@@ -1,0 +1,25 @@
+- name: Installing the Etcd
+  apt:
+    name: etcd
+    state: present
+    update_cache: yes
+
+- name: Edit the Etcd file
+  copy:
+    content: |
+      ETCD_NAME="controller"
+      ETCD_DATA_DIR="/var/lib/etcd"
+      ETCD_INITIAL_CLUSTER_STATE="new"
+      ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
+      ETCD_INITIAL_CLUSTER="controller=http://10.0.0.11:2380"
+      ETCD_INITIAL_ADVERTISE_PEER_URLS="http://10.0.0.11:2380"
+      ETCD_ADVERTISE_CLIENT_URLS="http://10.0.0.11:2379"
+      ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380"
+      ETCD_LISTEN_CLIENT_URLS="http://10.0.0.11:2379"
+    dest: /etc/default/etcd
+    mode: "0755"
+
+- name: Enabling the Etcd
+  service:
+     name: etcd
+     enabled: yes
